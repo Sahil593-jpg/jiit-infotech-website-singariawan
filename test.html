@@ -1,0 +1,3524 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JIIT INFOTECH - Online Test</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0b3d91, #1769aa);
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+        }
+
+        header h1 {
+            margin-bottom: 8px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 25px auto;
+            padding: 15px;
+        }
+
+        .box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+        }
+
+        h2 {
+            color: #0b3d91;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .instructions {
+            background: #eef5ff;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .language-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .language-btn {
+            padding: 13px 25px;
+            border: none;
+            border-radius: 8px;
+            background: #0b3d91;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .category {
+            background: #eef5ff;
+            border: 2px solid #d7e6ff;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .category:hover {
+            border-color: #1769aa;
+            transform: translateY(-2px);
+        }
+
+        .icon {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .category h3 {
+            color: #0b3d91;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .info {
+            background: #eef5ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .question {
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            display: block;
+            background: #f7f9fc;
+            border: 1px solid #ddd;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            line-height: 1.5;
+        }
+
+        .option:hover {
+            background: #eef5ff;
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .back-btn {
+            background: #777;
+            color: white;
+        }
+
+        .next-btn,
+        .submit-btn {
+            background: #0b3d91;
+            color: white;
+        }
+
+        .result {
+            text-align: center;
+        }
+
+        .score {
+            font-size: 40px;
+            color: #0b3d91;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .result-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .restart-btn {
+            background: #1769aa;
+            color: white;
+        }
+
+        .home-btn {
+            background: #555;
+            color: white;
+            margin-left: 8px;
+        }
+
+        .candidate-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .candidate-form input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .start-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #1769aa;
+            color: white;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        .candidate-error {
+            color: #c62828;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .result-details {
+            margin: 18px 0;
+            padding: 18px;
+            background: #f8fafc;
+            border: 1px solid #e1e7ef;
+            border-radius: 12px;
+            text-align: left;
+        }
+
+        .result-status {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 20px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .result-test-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0b3d91;
+            margin-bottom: 12px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .result-card {
+            padding: 12px;
+            border: 1px solid #e1e7ef;
+            border-radius: 10px;
+            background: white;
+        }
+
+        .result-card-label {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .result-card-value {
+            display: block;
+            font-size: 20px;
+            font-weight: bold;
+            color: #222;
+        }
+
+        .result-info {
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #e1e7ef;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 500px) {
+            .result-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .container {
+                padding: 10px;
+            }
+
+            .box {
+                padding: 18px;
+            }
+
+            .question {
+                font-size: 17px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<header>
+
+    <h1>JIIT INFOTECH</h1>
+
+    <p>
+        Computer Education - Online Test Portal
+    </p>
+
+</header>
+
+
+<div class="container">
+
+
+    <!-- CANDIDATE DETAILS SCREEN -->
+
+    <div class="box" id="candidateScreen">
+
+        <h2>Candidate Details / अभ्यर्थी विवरण</h2>
+
+        <div class="instructions">
+            Test शुरू करने से पहले अपना नाम और 10 अंकों का मोबाइल नंबर भरें।
+        </div>
+
+        <div class="candidate-form">
+            <input
+                type="text"
+                id="candidateName"
+                placeholder="पूरा नाम / Full Name"
+                maxlength="80"
+                autocomplete="name"
+            >
+
+            <input
+                type="tel"
+                id="candidateMobile"
+                placeholder="10 अंकों का Mobile Number"
+                maxlength="10"
+                inputmode="numeric"
+                autocomplete="tel"
+            >
+
+            <div id="candidateError" class="candidate-error"></div>
+
+            <button class="start-btn" onclick="saveCandidateAndContinue()">
+                आगे बढ़ें / Continue
+            </button>
+        </div>
+
+    </div>
+
+
+    <!-- LANGUAGE SCREEN -->
+
+    <div class="box hidden" id="languageScreen">
+
+        <h2>
+            भाषा चुनें / Select Language
+        </h2>
+
+        <div class="instructions">
+
+            <strong>Test Instructions / परीक्षा निर्देश</strong>
+
+            <br><br>
+
+            • सही विकल्प चुनें / Select the correct option
+
+            <br>
+
+            • हर question के बाद Next दबाएँ / Press Next after each question
+
+            <br>
+
+            • आखिरी question पर Submit Test दबाएँ
+
+            <br>
+
+            • Submit के बाद आपका score दिखाई देगा
+
+        </div>
+
+
+        <div class="language-buttons">
+
+            <button
+                class="language-btn"
+                onclick="selectLanguage('hi')">
+
+                🇮🇳 हिंदी
+
+            </button>
+
+
+            <button
+                class="language-btn"
+                onclick="selectLanguage('en')">
+
+                🇬🇧 English
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- CATEGORY SCREEN -->
+
+    <div class="box hidden" id="categoryScreen">
+
+        <h2 id="categoryTitle">
+            Test Category चुनें
+        </h2>
+
+
+        <div class="categories">
+
+            <div class="category"
+                 onclick="startTest('Paint')">
+
+                <div class="icon">🎨</div>
+
+                <h3>Paint</h3>
+
+            </div>
+
+
+            <div class="category"
+                 onclick="startTest('Notepad')">
+
+                <div class="icon">📝</div>
+
+                <h3>Notepad</h3>
+
+            </div>
+
+
+            <div class="category"
+                 onclick="startTest('MS Word')">
+
+                <div class="icon">📄</div>
+
+                <h3>MS Word</h3>
+
+            </div>
+
+
+            <div class="category"
+                 onclick="startTest('MS Excel')">
+
+                <div class="icon">📊</div>
+
+                <h3>MS Excel</h3>
+
+            </div>
+
+
+            <div class="category"
+                 onclick="startTest('PowerPoint')">
+
+                <div class="icon">📽️</div>
+
+                <h3>PowerPoint</h3>
+
+            </div>
+
+
+            <div class="category"
+                 onclick="startTest('Tally')">
+
+                <div class="icon">🧾</div>
+
+                <h3>Tally</h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TEST SCREEN -->
+
+    <div class="box hidden" id="testScreen">
+
+        <div class="test-header">
+
+            <div class="info" id="categoryName"></div>
+
+            <div class="info" id="questionNumber"></div>
+
+        </div>
+
+
+        <div class="question" id="questionText"></div>
+
+
+        <div id="optionsContainer"></div>
+
+
+        <div class="buttons">
+
+            <button
+                class="back-btn"
+                onclick="backToCategories()">
+
+                Back
+
+            </button>
+
+
+            <button
+                class="next-btn"
+                id="nextButton"
+                onclick="nextQuestion()">
+
+                Next
+
+            </button>
+
+
+            <button
+                class="submit-btn hidden"
+                id="submitButton"
+                onclick="submitTest()">
+
+                Submit Test
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESULT SCREEN -->
+
+    <div class="box hidden" id="resultScreen">
+
+        <div class="result">
+
+            <div class="result-status" id="resultStatus">✓ Result Completed</div>
+
+            <h2>
+                Test Completed 🎉
+            </h2>
+
+            <div class="result-test-name" id="resultTestName"></div>
+
+            <div
+                class="score"
+                id="scoreText">
+            </div>
+
+            <div
+                class="result-message"
+                id="resultMessage">
+            </div>
+
+            <div class="result-details" id="resultDetails"></div>
+
+
+            <button
+                class="restart-btn"
+                onclick="backToCategories()">
+
+                Take Another Test
+
+            </button>
+
+
+            <button
+                class="home-btn"
+                onclick="goHome()">
+
+                Home
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ============================
+   GOOGLE SHEETS API
+============================ */
+
+const GOOGLE_SHEET_API_URL =
+    "https://script.google.com/macros/s/AKfycbwJa8H8zCrF-d9VrP1EhvNsNJhVbx75imiDVMOVfEK5h8XyPQvgOwA4I8eeCjih1ngEtw/exec";
+
+let candidateName = "";
+let candidateMobile = "";
+
+
+/* ============================
+   CANDIDATE DETAILS
+============================ */
+
+function saveCandidateAndContinue() {
+
+    const name = document
+        .getElementById("candidateName")
+        .value
+        .trim();
+
+    const mobile = document
+        .getElementById("candidateMobile")
+        .value
+        .trim();
+
+    const error = document
+        .getElementById("candidateError");
+
+    error.innerText = "";
+
+    if (!name) {
+        error.innerText = "कृपया अपना नाम भरें।";
+        return;
+    }
+
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+        error.innerText = "कृपया सही 10 अंकों का मोबाइल नंबर भरें।";
+        return;
+    }
+
+    candidateName = name;
+    candidateMobile = mobile;
+
+    document
+        .getElementById("candidateScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("languageScreen")
+        .classList.remove("hidden");
+}
+
+
+/* ============================
+   LANGUAGE
+============================ */
+
+let selectedLanguage = "hi";
+
+
+function selectLanguage(language) {
+
+    selectedLanguage = language;
+
+    document
+        .getElementById("languageScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("categoryScreen")
+        .classList.remove("hidden");
+
+}
+
+
+/* ============================
+   QUESTION BANK
+============================ */
+
+const questionBank = {
+
+    "Paint": [
+    {
+        hi: "MS Paint का उपयोग मुख्य रूप से किस काम के लिए किया जाता है?",
+        en: "What is MS Paint mainly used for?",
+        optionsHi: [
+            "चित्र बनाने और संपादित करने के लिए",
+            "गाने सुनने के लिए",
+            "Accounting करने के लिए",
+            "Programming करने के लिए"
+        ],
+        optionsEn: [
+            "Creating and editing pictures",
+            "Listening to music",
+            "Doing accounting",
+            "Programming"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में चित्र बनाने के लिए कौन-सा Tool उपयोग होता है?",
+        en: "Which tool is used for drawing in Paint?",
+        optionsHi: [
+            "Pencil Tool",
+            "Calculator",
+            "Table Tool",
+            "Mail Tool"
+        ],
+        optionsEn: [
+            "Pencil Tool",
+            "Calculator",
+            "Table Tool",
+            "Mail Tool"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में रंग भरने के लिए कौन-सा Tool उपयोग होता है?",
+        en: "Which tool is used to fill color in Paint?",
+        optionsHi: [
+            "Fill with Color",
+            "Eraser",
+            "Text",
+            "Magnifier"
+        ],
+        optionsEn: [
+            "Fill with Color",
+            "Eraser",
+            "Text",
+            "Magnifier"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में किसी चित्र के हिस्से को मिटाने के लिए कौन-सा Tool उपयोग होता है?",
+        en: "Which tool is used to erase part of a picture in Paint?",
+        optionsHi: [
+            "Eraser",
+            "Brush",
+            "Fill",
+            "Text"
+        ],
+        optionsEn: [
+            "Eraser",
+            "Brush",
+            "Fill",
+            "Text"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में Text लिखने के लिए कौन-सा Tool उपयोग होता है?",
+        en: "Which tool is used to type text in Paint?",
+        optionsHi: [
+            "Text Tool",
+            "Pencil Tool",
+            "Eraser Tool",
+            "Fill Tool"
+        ],
+        optionsEn: [
+            "Text Tool",
+            "Pencil Tool",
+            "Eraser Tool",
+            "Fill Tool"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में सीधी रेखा बनाने के लिए कौन-सा Shape उपयोग किया जाता है?",
+        en: "Which shape is used to draw a straight line in Paint?",
+        optionsHi: [
+            "Line",
+            "Circle",
+            "Rectangle",
+            "Star"
+        ],
+        optionsEn: [
+            "Line",
+            "Circle",
+            "Rectangle",
+            "Star"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में आयत बनाने के लिए कौन-सा Shape उपयोग होता है?",
+        en: "Which shape is used to draw a rectangle in Paint?",
+        optionsHi: [
+            "Rectangle",
+            "Line",
+            "Curve",
+            "Pencil"
+        ],
+        optionsEn: [
+            "Rectangle",
+            "Line",
+            "Curve",
+            "Pencil"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में गोल आकृति बनाने के लिए कौन-सा Shape उपयोग होता है?",
+        en: "Which shape is used to draw a circle in Paint?",
+        optionsHi: [
+            "Ellipse",
+            "Line",
+            "Rectangle",
+            "Triangle"
+        ],
+        optionsEn: [
+            "Ellipse",
+            "Line",
+            "Rectangle",
+            "Triangle"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में चित्र को Save करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to save a picture in Paint?",
+        optionsHi: [
+            "Ctrl + S",
+            "Ctrl + C",
+            "Ctrl + V",
+            "Ctrl + X"
+        ],
+        optionsEn: [
+            "Ctrl + S",
+            "Ctrl + C",
+            "Ctrl + V",
+            "Ctrl + X"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में Copy करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Copy in Paint?",
+        optionsHi: [
+            "Ctrl + C",
+            "Ctrl + S",
+            "Ctrl + Z",
+            "Ctrl + P"
+        ],
+        optionsEn: [
+            "Ctrl + C",
+            "Ctrl + S",
+            "Ctrl + Z",
+            "Ctrl + P"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में Paste करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Paste in Paint?",
+        optionsHi: [
+            "Ctrl + V",
+            "Ctrl + C",
+            "Ctrl + X",
+            "Ctrl + A"
+        ],
+        optionsEn: [
+            "Ctrl + V",
+            "Ctrl + C",
+            "Ctrl + X",
+            "Ctrl + A"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में Undo करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Undo in Paint?",
+        optionsHi: [
+            "Ctrl + Z",
+            "Ctrl + Y",
+            "Ctrl + S",
+            "Ctrl + P"
+        ],
+        optionsEn: [
+            "Ctrl + Z",
+            "Ctrl + Y",
+            "Ctrl + S",
+            "Ctrl + P"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में पूरे चित्र को Select करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to select the entire picture in Paint?",
+        optionsHi: [
+            "Ctrl + A",
+            "Ctrl + C",
+            "Ctrl + V",
+            "Ctrl + Z"
+        ],
+        optionsEn: [
+            "Ctrl + A",
+            "Ctrl + C",
+            "Ctrl + V",
+            "Ctrl + Z"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में चित्र को बड़ा करके देखने के लिए कौन-सा Tool उपयोग होता है?",
+        en: "Which tool is used to zoom in on a picture in Paint?",
+        optionsHi: [
+            "Magnifier",
+            "Eraser",
+            "Brush",
+            "Fill"
+        ],
+        optionsEn: [
+            "Magnifier",
+            "Eraser",
+            "Brush",
+            "Fill"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में Brush Tool का उपयोग किसलिए होता है?",
+        en: "What is the Brush Tool used for in Paint?",
+        optionsHi: [
+            "चित्र बनाने या रंग करने के लिए",
+            "File delete करने के लिए",
+            "Computer बंद करने के लिए",
+            "Internet चलाने के लिए"
+        ],
+        optionsEn: [
+            "Drawing or painting",
+            "Deleting files",
+            "Shutting down the computer",
+            "Using the Internet"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में चित्र को Crop करने का क्या अर्थ है?",
+        en: "What does Crop mean in Paint?",
+        optionsHi: [
+            "चित्र के अनावश्यक हिस्से को हटाना",
+            "चित्र को Print करना",
+            "चित्र में आवाज जोड़ना",
+            "Computer बंद करना"
+        ],
+        optionsEn: [
+            "Removing unwanted parts of a picture",
+            "Printing the picture",
+            "Adding sound to the picture",
+            "Shutting down the computer"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में चित्र का आकार बदलने के लिए कौन-सा विकल्प उपयोग होता है?",
+        en: "Which option is used to change the size of a picture in Paint?",
+        optionsHi: [
+            "Resize",
+            "Save",
+            "Print",
+            "Undo"
+        ],
+        optionsEn: [
+            "Resize",
+            "Save",
+            "Print",
+            "Undo"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में चित्र को घुमाने के लिए कौन-सा विकल्प उपयोग होता है?",
+        en: "Which option is used to rotate a picture in Paint?",
+        optionsHi: [
+            "Rotate",
+            "Resize",
+            "Crop",
+            "Fill"
+        ],
+        optionsEn: [
+            "Rotate",
+            "Resize",
+            "Crop",
+            "Fill"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में चित्र को Print करने के लिए कौन-सा Shortcut उपयोग होता है?",
+        en: "Which shortcut is used to print a picture in Paint?",
+        optionsHi: [
+            "Ctrl + P",
+            "Ctrl + S",
+            "Ctrl + C",
+            "Ctrl + Z"
+        ],
+        optionsEn: [
+            "Ctrl + P",
+            "Ctrl + S",
+            "Ctrl + C",
+            "Ctrl + Z"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में Foreground Color किस काम आता है?",
+        en: "What is the Foreground Color used for in Paint?",
+        optionsHi: [
+            "मुख्य drawing/color के लिए",
+            "Computer बंद करने के लिए",
+            "File खोलने के लिए",
+            "Internet चलाने के लिए"
+        ],
+        optionsEn: [
+            "For the main drawing/color",
+            "For shutting down the computer",
+            "For opening a file",
+            "For using the Internet"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में Background Color किससे संबंधित होता है?",
+        en: "What is the Background Color related to in Paint?",
+        optionsHi: [
+            "चित्र की पृष्ठभूमि के रंग से",
+            "Keyboard से",
+            "Printer से",
+            "Internet से"
+        ],
+        optionsEn: [
+            "The background color of the picture",
+            "Keyboard",
+            "Printer",
+            "Internet"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में किसी हिस्से को चुनने के लिए कौन-सा विकल्प उपयोग होता है?",
+        en: "Which option is used to select a part of a picture in Paint?",
+        optionsHi: [
+            "Select",
+            "Save",
+            "Print",
+            "Brush"
+        ],
+        optionsEn: [
+            "Select",
+            "Save",
+            "Print",
+            "Brush"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में बनाई गई File को Save करने के लिए क्या करना चाहिए?",
+        en: "What should you do to save a file created in Paint?",
+        optionsHi: [
+            "Save विकल्प चुनना चाहिए",
+            "Computer बंद करना चाहिए",
+            "Keyboard निकालना चाहिए",
+            "Monitor बंद करना चाहिए"
+        ],
+        optionsEn: [
+            "Choose the Save option",
+            "Shut down the computer",
+            "Disconnect the keyboard",
+            "Turn off the monitor"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में किसी चित्र को दूसरी जगह ले जाने के लिए पहले क्या करना चाहिए?",
+        en: "What should you do first to move a picture to another place in Paint?",
+        optionsHi: [
+            "चित्र के हिस्से को Select करना",
+            "Computer Restart करना",
+            "File Delete करना",
+            "Printer चालू करना"
+        ],
+        optionsEn: [
+            "Select the part of the picture",
+            "Restart the computer",
+            "Delete the file",
+            "Turn on the printer"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में किसी चित्र को उल्टा या दूसरी दिशा में करने के लिए कौन-सा विकल्प उपयोग होता है?",
+        en: "Which option is used to flip a picture in Paint?",
+        optionsHi: [
+            "Flip",
+            "Save",
+            "Print",
+            "Text"
+        ],
+        optionsEn: [
+            "Flip",
+            "Save",
+            "Print",
+            "Text"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Paint में अलग-अलग रंगों का उपयोग क्यों किया जाता है?",
+        en: "Why are different colors used in Paint?",
+        optionsHi: [
+            "चित्र को आकर्षक और रंगीन बनाने के लिए",
+            "Computer की speed बढ़ाने के लिए",
+            "Internet चलाने के लिए",
+            "File delete करने के लिए"
+        ],
+        optionsEn: [
+            "To make the picture attractive and colorful",
+            "To increase computer speed",
+            "To use the Internet",
+            "To delete files"
+        ],
+        answer: 0
+    }
+],
+
+
+    "Notepad": [
+    {
+        hi: "Notepad क्या है?",
+        en: "What is Notepad?",
+        optionsHi: [
+            "एक Text Editor",
+            "एक Web Browser",
+            "एक Antivirus",
+            "एक Calculator"
+        ],
+        optionsEn: [
+            "A Text Editor",
+            "A Web Browser",
+            "An Antivirus",
+            "A Calculator"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad का उपयोग मुख्य रूप से किसलिए किया जाता है?",
+        en: "What is Notepad mainly used for?",
+        optionsHi: [
+            "सादा Text लिखने और संपादित करने के लिए",
+            "चित्र बनाने के लिए",
+            "Video editing के लिए",
+            "Accounting के लिए"
+        ],
+        optionsEn: [
+            "Writing and editing plain text",
+            "Creating pictures",
+            "Video editing",
+            "Accounting"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में बनाई गई सामान्य Text File का Extension क्या होता है?",
+        en: "What is the extension of a normal text file created in Notepad?",
+        optionsHi: [
+            ".txt",
+            ".jpg",
+            ".mp3",
+            ".exe"
+        ],
+        optionsEn: [
+            ".txt",
+            ".jpg",
+            ".mp3",
+            ".exe"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में नई File बनाने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to create a new file in Notepad?",
+        optionsHi: [
+            "Ctrl + N",
+            "Ctrl + S",
+            "Ctrl + P",
+            "Ctrl + Z"
+        ],
+        optionsEn: [
+            "Ctrl + N",
+            "Ctrl + S",
+            "Ctrl + P",
+            "Ctrl + Z"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में File Save करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to save a file in Notepad?",
+        optionsHi: [
+            "Ctrl + S",
+            "Ctrl + C",
+            "Ctrl + V",
+            "Ctrl + X"
+        ],
+        optionsEn: [
+            "Ctrl + S",
+            "Ctrl + C",
+            "Ctrl + V",
+            "Ctrl + X"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में Print करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to print in Notepad?",
+        optionsHi: [
+            "Ctrl + P",
+            "Ctrl + S",
+            "Ctrl + A",
+            "Ctrl + F"
+        ],
+        optionsEn: [
+            "Ctrl + P",
+            "Ctrl + S",
+            "Ctrl + A",
+            "Ctrl + F"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में Copy करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Copy in Notepad?",
+        optionsHi: [
+            "Ctrl + C",
+            "Ctrl + V",
+            "Ctrl + X",
+            "Ctrl + Z"
+        ],
+        optionsEn: [
+            "Ctrl + C",
+            "Ctrl + V",
+            "Ctrl + X",
+            "Ctrl + Z"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में Paste करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Paste in Notepad?",
+        optionsHi: [
+            "Ctrl + V",
+            "Ctrl + C",
+            "Ctrl + X",
+            "Ctrl + P"
+        ],
+        optionsEn: [
+            "Ctrl + V",
+            "Ctrl + C",
+            "Ctrl + X",
+            "Ctrl + P"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में Cut करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Cut in Notepad?",
+        optionsHi: [
+            "Ctrl + X",
+            "Ctrl + C",
+            "Ctrl + V",
+            "Ctrl + A"
+        ],
+        optionsEn: [
+            "Ctrl + X",
+            "Ctrl + C",
+            "Ctrl + V",
+            "Ctrl + A"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में Undo करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Undo in Notepad?",
+        optionsHi: [
+            "Ctrl + Z",
+            "Ctrl + Y",
+            "Ctrl + S",
+            "Ctrl + N"
+        ],
+        optionsEn: [
+            "Ctrl + Z",
+            "Ctrl + Y",
+            "Ctrl + S",
+            "Ctrl + N"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में पूरे Text को Select करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to select all text in Notepad?",
+        optionsHi: [
+            "Ctrl + A",
+            "Ctrl + C",
+            "Ctrl + V",
+            "Ctrl + F"
+        ],
+        optionsEn: [
+            "Ctrl + A",
+            "Ctrl + C",
+            "Ctrl + V",
+            "Ctrl + F"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में किसी शब्द को खोजने के लिए कौन-सा विकल्प उपयोग होता है?",
+        en: "Which option is used to search for a word in Notepad?",
+        optionsHi: [
+            "Find",
+            "Save",
+            "Print",
+            "Paste"
+        ],
+        optionsEn: [
+            "Find",
+            "Save",
+            "Print",
+            "Paste"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में Find की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Find in Notepad?",
+        optionsHi: [
+            "Ctrl + F",
+            "Ctrl + H",
+            "Ctrl + G",
+            "Ctrl + D"
+        ],
+        optionsEn: [
+            "Ctrl + F",
+            "Ctrl + H",
+            "Ctrl + G",
+            "Ctrl + D"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में Replace का उपयोग किसलिए किया जाता है?",
+        en: "What is Replace used for in Notepad?",
+        optionsHi: [
+            "एक Text को दूसरे Text से बदलने के लिए",
+            "File Delete करने के लिए",
+            "Computer बंद करने के लिए",
+            "Picture बनाने के लिए"
+        ],
+        optionsEn: [
+            "To replace one text with another",
+            "To delete a file",
+            "To shut down the computer",
+            "To create a picture"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में Replace की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Replace in Notepad?",
+        optionsHi: [
+            "Ctrl + H",
+            "Ctrl + F",
+            "Ctrl + R",
+            "Ctrl + T"
+        ],
+        optionsEn: [
+            "Ctrl + H",
+            "Ctrl + F",
+            "Ctrl + R",
+            "Ctrl + T"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में Word Wrap का क्या काम है?",
+        en: "What does Word Wrap do in Notepad?",
+        optionsHi: [
+            "लंबी Line को अगली Line में दिखाता है",
+            "File को Delete करता है",
+            "Text को Print करता है",
+            "Computer बंद करता है"
+        ],
+        optionsEn: [
+            "Wraps a long line onto the next line",
+            "Deletes the file",
+            "Prints the text",
+            "Shuts down the computer"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में Font बदलने के लिए किस विकल्प का उपयोग किया जाता है?",
+        en: "Which option is used to change the font in Notepad?",
+        optionsHi: [
+            "Font",
+            "Save As",
+            "Print",
+            "Find"
+        ],
+        optionsEn: [
+            "Font",
+            "Save As",
+            "Print",
+            "Find"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में Font Size बदलने का उद्देश्य क्या है?",
+        en: "What is the purpose of changing the font size in Notepad?",
+        optionsHi: [
+            "Text का आकार बदलना",
+            "File का नाम बदलना",
+            "Computer की Speed बढ़ाना",
+            "File Delete करना"
+        ],
+        optionsEn: [
+            "To change the size of the text",
+            "To rename the file",
+            "To increase computer speed",
+            "To delete the file"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में Save As का उपयोग किसलिए किया जाता है?",
+        en: "What is Save As used for in Notepad?",
+        optionsHi: [
+            "File को नए नाम या स्थान पर Save करने के लिए",
+            "Text Copy करने के लिए",
+            "Text खोजने के लिए",
+            "Computer बंद करने के लिए"
+        ],
+        optionsEn: [
+            "To save a file with a new name or location",
+            "To copy text",
+            "To search for text",
+            "To shut down the computer"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में Date और Time डालने के लिए कौन-सी Function Key उपयोग की जाती है?",
+        en: "Which function key is used to insert the date and time in Notepad?",
+        optionsHi: [
+            "F5",
+            "F1",
+            "F2",
+            "F10"
+        ],
+        optionsEn: [
+            "F5",
+            "F1",
+            "F2",
+            "F10"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में Text को Edit करने का क्या अर्थ है?",
+        en: "What does editing text mean in Notepad?",
+        optionsHi: [
+            "Text में बदलाव करना",
+            "Computer Restart करना",
+            "Printer चालू करना",
+            "Internet चलाना"
+        ],
+        optionsEn: [
+            "Making changes to text",
+            "Restarting the computer",
+            "Turning on the printer",
+            "Using the Internet"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में किसी Text को Bold करने के लिए सामान्यतः क्या उपयोग किया जाता है?",
+        en: "What is generally used to make text bold in Notepad?",
+        optionsHi: [
+            "Font settings",
+            "Calculator",
+            "Paint Tool",
+            "File Explorer"
+        ],
+        optionsEn: [
+            "Font settings",
+            "Calculator",
+            "Paint Tool",
+            "File Explorer"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad में Text File को सुरक्षित रखने के लिए क्या करना चाहिए?",
+        en: "What should you do to keep a text file saved safely?",
+        optionsHi: [
+            "File को Save करना चाहिए",
+            "File को बंद करके बिना Save किए छोड़ना चाहिए",
+            "Computer की Power बंद करनी चाहिए",
+            "File Delete करनी चाहिए"
+        ],
+        optionsEn: [
+            "Save the file",
+            "Close it without saving",
+            "Turn off the computer",
+            "Delete the file"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Notepad किस प्रकार का Text दिखाता है?",
+        en: "What type of text does Notepad mainly handle?",
+        optionsHi: [
+            "Plain Text",
+            "3D Text",
+            "Video Text",
+            "Audio Text"
+        ],
+        optionsEn: [
+            "Plain Text",
+            "3D Text",
+            "Video Text",
+            "Audio Text"
+        ],
+        answer: 0
+    }
+],
+    "MS Word": [
+    {
+        hi: "MS Word क्या है?",
+        en: "What is MS Word?",
+        optionsHi: ["एक Word Processing Software", "एक Browser", "एक Antivirus", "एक Calculator"],
+        optionsEn: ["A Word Processing Software", "A Browser", "An Antivirus", "A Calculator"],
+        answer: 0
+    },
+    {
+        hi: "MS Word का उपयोग मुख्य रूप से किसलिए किया जाता है?",
+        en: "What is MS Word mainly used for?",
+        optionsHi: ["Document बनाने और Edit करने के लिए", "चित्र बनाने के लिए", "Video चलाने के लिए", "Game खेलने के लिए"],
+        optionsEn: ["Creating and editing documents", "Creating pictures", "Playing videos", "Playing games"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में नया Document बनाने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to create a new document in MS Word?",
+        optionsHi: ["Ctrl + N", "Ctrl + S", "Ctrl + P", "Ctrl + O"],
+        optionsEn: ["Ctrl + N", "Ctrl + S", "Ctrl + P", "Ctrl + O"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Document Save करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to save a document in MS Word?",
+        optionsHi: ["Ctrl + S", "Ctrl + C", "Ctrl + V", "Ctrl + X"],
+        optionsEn: ["Ctrl + S", "Ctrl + C", "Ctrl + V", "Ctrl + X"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Print करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to print a document in MS Word?",
+        optionsHi: ["Ctrl + P", "Ctrl + S", "Ctrl + N", "Ctrl + F"],
+        optionsEn: ["Ctrl + P", "Ctrl + S", "Ctrl + N", "Ctrl + F"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Copy करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Copy in MS Word?",
+        optionsHi: ["Ctrl + C", "Ctrl + V", "Ctrl + X", "Ctrl + Z"],
+        optionsEn: ["Ctrl + C", "Ctrl + V", "Ctrl + X", "Ctrl + Z"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Paste करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Paste in MS Word?",
+        optionsHi: ["Ctrl + V", "Ctrl + C", "Ctrl + X", "Ctrl + A"],
+        optionsEn: ["Ctrl + V", "Ctrl + C", "Ctrl + X", "Ctrl + A"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Cut करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Cut in MS Word?",
+        optionsHi: ["Ctrl + X", "Ctrl + C", "Ctrl + V", "Ctrl + P"],
+        optionsEn: ["Ctrl + X", "Ctrl + C", "Ctrl + V", "Ctrl + P"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Undo करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Undo in MS Word?",
+        optionsHi: ["Ctrl + Z", "Ctrl + Y", "Ctrl + S", "Ctrl + U"],
+        optionsEn: ["Ctrl + Z", "Ctrl + Y", "Ctrl + S", "Ctrl + U"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Redo करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Redo in MS Word?",
+        optionsHi: ["Ctrl + Y", "Ctrl + Z", "Ctrl + R", "Ctrl + D"],
+        optionsEn: ["Ctrl + Y", "Ctrl + Z", "Ctrl + R", "Ctrl + D"],
+        answer: 0
+    },
+    {
+        hi: "पूरे Document को Select करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to select the entire document?",
+        optionsHi: ["Ctrl + A", "Ctrl + C", "Ctrl + F", "Ctrl + E"],
+        optionsEn: ["Ctrl + A", "Ctrl + C", "Ctrl + F", "Ctrl + E"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Text को Bold करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to make text Bold?",
+        optionsHi: ["Ctrl + B", "Ctrl + I", "Ctrl + U", "Ctrl + T"],
+        optionsEn: ["Ctrl + B", "Ctrl + I", "Ctrl + U", "Ctrl + T"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Text को Italic करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to make text Italic?",
+        optionsHi: ["Ctrl + I", "Ctrl + B", "Ctrl + U", "Ctrl + L"],
+        optionsEn: ["Ctrl + I", "Ctrl + B", "Ctrl + U", "Ctrl + L"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Text को Underline करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to underline text?",
+        optionsHi: ["Ctrl + U", "Ctrl + B", "Ctrl + I", "Ctrl + E"],
+        optionsEn: ["Ctrl + U", "Ctrl + B", "Ctrl + I", "Ctrl + E"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Text को Center Align करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Center Alignment?",
+        optionsHi: ["Ctrl + E", "Ctrl + L", "Ctrl + R", "Ctrl + J"],
+        optionsEn: ["Ctrl + E", "Ctrl + L", "Ctrl + R", "Ctrl + J"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Text को Left Align करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Left Alignment?",
+        optionsHi: ["Ctrl + L", "Ctrl + E", "Ctrl + R", "Ctrl + J"],
+        optionsEn: ["Ctrl + L", "Ctrl + E", "Ctrl + R", "Ctrl + J"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Text को Right Align करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Right Alignment?",
+        optionsHi: ["Ctrl + R", "Ctrl + L", "Ctrl + E", "Ctrl + J"],
+        optionsEn: ["Ctrl + R", "Ctrl + L", "Ctrl + E", "Ctrl + J"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Justify Alignment की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Justify Alignment?",
+        optionsHi: ["Ctrl + J", "Ctrl + E", "Ctrl + L", "Ctrl + R"],
+        optionsEn: ["Ctrl + J", "Ctrl + E", "Ctrl + L", "Ctrl + R"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में किसी शब्द को खोजने के लिए कौन-सी Shortcut Key उपयोग होती है?",
+        en: "Which shortcut key is used to find a word in MS Word?",
+        optionsHi: ["Ctrl + F", "Ctrl + H", "Ctrl + G", "Ctrl + K"],
+        optionsEn: ["Ctrl + F", "Ctrl + H", "Ctrl + G", "Ctrl + K"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Find and Replace खोलने की Shortcut Key क्या है?",
+        en: "What is the shortcut key for Find and Replace?",
+        optionsHi: ["Ctrl + H", "Ctrl + F", "Ctrl + R", "Ctrl + G"],
+        optionsEn: ["Ctrl + H", "Ctrl + F", "Ctrl + R", "Ctrl + G"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Spelling और Grammar जाँचने के लिए कौन-सी Key उपयोग होती है?",
+        en: "Which key is used to check Spelling and Grammar in MS Word?",
+        optionsHi: ["F7", "F1", "F5", "F12"],
+        optionsEn: ["F7", "F1", "F5", "F12"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Hyperlink डालने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to insert a Hyperlink in MS Word?",
+        optionsHi: ["Ctrl + K", "Ctrl + H", "Ctrl + L", "Ctrl + M"],
+        optionsEn: ["Ctrl + K", "Ctrl + H", "Ctrl + L", "Ctrl + M"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Table का उपयोग किसलिए किया जाता है?",
+        en: "What is a Table used for in MS Word?",
+        optionsHi: ["Data को Rows और Columns में व्यवस्थित करने के लिए", "Video चलाने के लिए", "Audio रिकॉर्ड करने के लिए", "Computer बंद करने के लिए"],
+        optionsEn: ["Organizing data into rows and columns", "Playing videos", "Recording audio", "Shutting down the computer"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Header कहाँ दिखाई देता है?",
+        en: "Where does a Header appear in an MS Word document?",
+        optionsHi: ["Page के ऊपर", "Page के नीचे", "Page के बीच में", "केवल बाहर"],
+        optionsEn: ["At the top of the page", "At the bottom of the page", "In the middle of the page", "Outside the page"],
+        answer: 0
+    },
+    {
+        hi: "MS Word में Footer कहाँ दिखाई देता है?",
+        en: "Where does a Footer appear in an MS Word document?",
+        optionsHi: ["Page के नीचे", "Page के ऊपर", "Page के बीच में", "कहीं नहीं"],
+        optionsEn: ["At the bottom of the page", "At the top of the page", "In the middle of the page", "Nowhere"],
+        answer: 0
+    }
+],
+   "MS Excel": [
+    {
+        hi: "MS Excel का मुख्य उपयोग किस कार्य के लिए किया जाता है?",
+        en: "What is the main use of MS Excel?",
+        optionsHi: [
+            "Spreadsheet और Data Analysis",
+            "Photo Editing",
+            "Video Editing",
+            "Web Browsing"
+        ],
+        optionsEn: [
+            "Spreadsheet and Data Analysis",
+            "Photo Editing",
+            "Video Editing",
+            "Web Browsing"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में Row और Column के intersection को क्या कहा जाता है?",
+        en: "What is the intersection of a row and a column called in Excel?",
+        optionsHi: [
+            "Cell",
+            "Sheet",
+            "Range",
+            "Table"
+        ],
+        optionsEn: [
+            "Cell",
+            "Sheet",
+            "Range",
+            "Table"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में किसी Cell की पहचान किससे होती है?",
+        en: "How is a cell identified in Excel?",
+        optionsHi: [
+            "Column Letter और Row Number",
+            "केवल Row Number",
+            "केवल Column Letter",
+            "Sheet Name"
+        ],
+        optionsEn: [
+            "Column Letter and Row Number",
+            "Only Row Number",
+            "Only Column Letter",
+            "Sheet Name"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में A1 क्या दर्शाता है?",
+        en: "What does A1 represent in Excel?",
+        optionsHi: [
+            "एक Cell Address",
+            "एक Formula",
+            "एक Function",
+            "एक Worksheet"
+        ],
+        optionsEn: [
+            "A Cell Address",
+            "A Formula",
+            "A Function",
+            "A Worksheet"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में Formula किस चिन्ह से शुरू होता है?",
+        en: "Which symbol is used to start a formula in Excel?",
+        optionsHi: [
+            "=",
+            "+",
+            "#",
+            "@"
+        ],
+        optionsEn: [
+            "=",
+            "+",
+            "#",
+            "@"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "A1 से A5 तक के Numbers का Total निकालने के लिए कौन-सा Formula सही है?",
+        en: "Which formula correctly calculates the total of numbers from A1 to A5?",
+        optionsHi: [
+            "=SUM(A1:A5)",
+            "=TOTAL(A1:A5)",
+            "=ADD(A1:A5)",
+            "=COUNT(A1:A5)"
+        ],
+        optionsEn: [
+            "=SUM(A1:A5)",
+            "=TOTAL(A1:A5)",
+            "=ADD(A1:A5)",
+            "=COUNT(A1:A5)"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "AVERAGE Function का उपयोग किसलिए किया जाता है?",
+        en: "What is the AVERAGE function used for?",
+        optionsHi: [
+            "औसत निकालने के लिए",
+            "सबसे बड़ी संख्या खोजने के लिए",
+            "Data को Sort करने के लिए",
+            "Text को Bold करने के लिए"
+        ],
+        optionsEn: [
+            "To calculate the average",
+            "To find the largest number",
+            "To sort data",
+            "To make text bold"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "सबसे बड़ी संख्या खोजने के लिए कौन-सा Function उपयोग होता है?",
+        en: "Which function is used to find the largest number?",
+        optionsHi: [
+            "MAX",
+            "MIN",
+            "COUNT",
+            "AVERAGE"
+        ],
+        optionsEn: [
+            "MAX",
+            "MIN",
+            "COUNT",
+            "AVERAGE"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "सबसे छोटी संख्या खोजने के लिए कौन-सा Function उपयोग होता है?",
+        en: "Which function is used to find the smallest number?",
+        optionsHi: [
+            "MIN",
+            "MAX",
+            "SUM",
+            "AVERAGE"
+        ],
+        optionsEn: [
+            "MIN",
+            "MAX",
+            "SUM",
+            "AVERAGE"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में केवल Numbers वाले Cells की संख्या गिनने के लिए कौन-सा Function उपयोग होता है?",
+        en: "Which function counts cells containing numbers in Excel?",
+        optionsHi: [
+            "COUNT",
+            "COUNTA",
+            "SUM",
+            "COUNTIF"
+        ],
+        optionsEn: [
+            "COUNT",
+            "COUNTA",
+            "SUM",
+            "COUNTIF"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में किसी Condition के आधार पर Result देने के लिए कौन-सा Function उपयोग होता है?",
+        en: "Which function is used to return a result based on a condition?",
+        optionsHi: [
+            "IF",
+            "SUM",
+            "MAX",
+            "COUNT"
+        ],
+        optionsEn: [
+            "IF",
+            "SUM",
+            "MAX",
+            "COUNT"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "यदि B2 में Marks हैं और 40 या उससे अधिक पर Pass दिखाना हो, तो सही Formula कौन-सा है?",
+        en: "If B2 contains marks and you want to show Pass for 40 or more, which formula is correct?",
+        optionsHi: [
+            '=IF(B2>=40,"Pass","Fail")',
+            '=PASS(B2>=40)',
+            '=IF(B2<40,"Pass","Fail")',
+            '=RESULT(B2)'
+        ],
+        optionsEn: [
+            '=IF(B2>=40,"Pass","Fail")',
+            '=PASS(B2>=40)',
+            '=IF(B2<40,"Pass","Fail")',
+            '=RESULT(B2)'
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में $A$1 किस प्रकार का Cell Reference है?",
+        en: "What type of cell reference is $A$1 in Excel?",
+        optionsHi: [
+            "Absolute Reference",
+            "Relative Reference",
+            "Mixed Reference",
+            "Invalid Reference"
+        ],
+        optionsEn: [
+            "Absolute Reference",
+            "Relative Reference",
+            "Mixed Reference",
+            "Invalid Reference"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में A1 किस प्रकार का Reference है?",
+        en: "What type of reference is A1 in Excel?",
+        optionsHi: [
+            "Relative Reference",
+            "Absolute Reference",
+            "Mixed Reference",
+            "Fixed Reference"
+        ],
+        optionsEn: [
+            "Relative Reference",
+            "Absolute Reference",
+            "Mixed Reference",
+            "Fixed Reference"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में Data को A से Z या Smallest से Largest क्रम में लगाने को क्या कहते हैं?",
+        en: "What is arranging data from A to Z or smallest to largest called?",
+        optionsHi: [
+            "Sorting",
+            "Filtering",
+            "Formatting",
+            "Grouping"
+        ],
+        optionsEn: [
+            "Sorting",
+            "Filtering",
+            "Formatting",
+            "Grouping"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में केवल आवश्यक Records दिखाने के लिए कौन-सा Feature उपयोग होता है?",
+        en: "Which feature is used to display only required records in Excel?",
+        optionsHi: [
+            "Filter",
+            "Sort",
+            "Merge",
+            "Wrap Text"
+        ],
+        optionsEn: [
+            "Filter",
+            "Sort",
+            "Merge",
+            "Wrap Text"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में एक ही Cell में Text को कई Lines में दिखाने के लिए कौन-सा विकल्प उपयोग होता है?",
+        en: "Which option displays text on multiple lines within the same cell?",
+        optionsHi: [
+            "Wrap Text",
+            "Merge Cells",
+            "Filter",
+            "Sort"
+        ],
+        optionsEn: [
+            "Wrap Text",
+            "Merge Cells",
+            "Filter",
+            "Sort"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में दो या अधिक Cells को एक Cell की तरह जोड़ने के लिए कौन-सा विकल्प उपयोग होता है?",
+        en: "Which option combines two or more cells into one cell?",
+        optionsHi: [
+            "Merge Cells",
+            "Wrap Text",
+            "Filter",
+            "Freeze Panes"
+        ],
+        optionsEn: [
+            "Merge Cells",
+            "Wrap Text",
+            "Filter",
+            "Freeze Panes"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में बड़ी Worksheet में Header को Scroll करते समय दिखाई देते रहने के लिए कौन-सा Feature उपयोगी है?",
+        en: "Which feature keeps headers visible while scrolling through a large worksheet?",
+        optionsHi: [
+            "Freeze Panes",
+            "Merge Cells",
+            "AutoSum",
+            "Sort"
+        ],
+        optionsEn: [
+            "Freeze Panes",
+            "Merge Cells",
+            "AutoSum",
+            "Sort"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में Data को रंग या अन्य Formatting के आधार पर Highlight करने के लिए कौन-सा Feature उपयोग होता है?",
+        en: "Which feature highlights data based on values or conditions?",
+        optionsHi: [
+            "Conditional Formatting",
+            "Page Layout",
+            "Freeze Panes",
+            "Find"
+        ],
+        optionsEn: [
+            "Conditional Formatting",
+            "Page Layout",
+            "Freeze Panes",
+            "Find"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में Data का Graphical Representation बनाने के लिए क्या उपयोग किया जाता है?",
+        en: "What is used to create a graphical representation of data in Excel?",
+        optionsHi: [
+            "Chart",
+            "Formula Bar",
+            "Name Box",
+            "Status Bar"
+        ],
+        optionsEn: [
+            "Chart",
+            "Formula Bar",
+            "Name Box",
+            "Status Bar"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में PivotTable का मुख्य उपयोग क्या है?",
+        en: "What is the main purpose of a PivotTable in Excel?",
+        optionsHi: [
+            "बड़े Data को Summarize और Analyze करना",
+            "Computer बंद करना",
+            "Photo Edit करना",
+            "Text Type करना"
+        ],
+        optionsEn: [
+            "To summarize and analyze large data",
+            "To shut down the computer",
+            "To edit photos",
+            "To type text"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में VLOOKUP Function का उपयोग सामान्यतः किसलिए किया जाता है?",
+        en: "What is VLOOKUP generally used for in Excel?",
+        optionsHi: [
+            "Table में Value खोजकर संबंधित Data प्राप्त करने के लिए",
+            "Chart Delete करने के लिए",
+            "Worksheet Print करने के लिए",
+            "Cell Color बदलने के लिए"
+        ],
+        optionsEn: [
+            "To look up a value in a table and return related data",
+            "To delete a chart",
+            "To print a worksheet",
+            "To change cell color"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "यदि Excel में किसी Formula को नीचे की कई Rows में Copy करना हो, तो कौन-सा Feature उपयोगी है?",
+        en: "Which feature is useful for copying a formula down multiple rows?",
+        optionsHi: [
+            "Fill Handle",
+            "Filter",
+            "Chart",
+            "Freeze Panes"
+        ],
+        optionsEn: [
+            "Fill Handle",
+            "Filter",
+            "Chart",
+            "Freeze Panes"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Excel में #DIV/0! Error सामान्यतः कब दिखाई देता है?",
+        en: "When does the #DIV/0! error usually appear in Excel?",
+        optionsHi: [
+            "जब किसी संख्या को Zero से Divide किया जाता है",
+            "जब Cell में Text होता है",
+            "जब File Save नहीं होती",
+            "जब Worksheet Print होती है"
+        ],
+        optionsEn: [
+            "When a number is divided by zero",
+            "When a cell contains text",
+            "When a file is not saved",
+            "When a worksheet is printed"
+        ],
+        answer: 0
+    }
+],
+
+
+    "PowerPoint": [
+    {
+        hi: "MS PowerPoint का मुख्य उपयोग किसलिए किया जाता है?",
+        en: "What is the main use of MS PowerPoint?",
+        optionsHi: [
+            "Presentation बनाने के लिए",
+            "Database बनाने के लिए",
+            "Antivirus चलाने के लिए",
+            "Programming करने के लिए"
+        ],
+        optionsEn: [
+            "Creating presentations",
+            "Creating databases",
+            "Running antivirus software",
+            "Programming"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में एक Presentation किससे बनी होती है?",
+        en: "What is a PowerPoint presentation made up of?",
+        optionsHi: [
+            "Slides",
+            "Cells",
+            "Rows",
+            "Records"
+        ],
+        optionsEn: [
+            "Slides",
+            "Cells",
+            "Rows",
+            "Records"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में नई Slide जोड़ने की सामान्य Shortcut Key क्या है?",
+        en: "What is the common shortcut key to add a new slide in PowerPoint?",
+        optionsHi: [
+            "Ctrl + M",
+            "Ctrl + N",
+            "Ctrl + S",
+            "Ctrl + P"
+        ],
+        optionsEn: [
+            "Ctrl + M",
+            "Ctrl + N",
+            "Ctrl + S",
+            "Ctrl + P"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint Presentation Save करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to save a PowerPoint presentation?",
+        optionsHi: [
+            "Ctrl + S",
+            "Ctrl + P",
+            "Ctrl + M",
+            "Ctrl + E"
+        ],
+        optionsEn: [
+            "Ctrl + S",
+            "Ctrl + P",
+            "Ctrl + M",
+            "Ctrl + E"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में Slide Show शुरू करने के लिए कौन-सी Key उपयोग होती है?",
+        en: "Which key is used to start a slide show in PowerPoint?",
+        optionsHi: [
+            "F5",
+            "F2",
+            "F7",
+            "F12"
+        ],
+        optionsEn: [
+            "F5",
+            "F2",
+            "F7",
+            "F12"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Current Slide से Slide Show शुरू करने की Shortcut Key क्या है?",
+        en: "What is the shortcut key to start the slide show from the current slide?",
+        optionsHi: [
+            "Shift + F5",
+            "Ctrl + F5",
+            "Alt + F5",
+            "F4"
+        ],
+        optionsEn: [
+            "Shift + F5",
+            "Ctrl + F5",
+            "Alt + F5",
+            "F4"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में Design बदलने के लिए मुख्य रूप से क्या उपयोग किया जाता है?",
+        en: "What is mainly used to change the design of a PowerPoint presentation?",
+        optionsHi: [
+            "Theme",
+            "Formula",
+            "Filter",
+            "Cell"
+        ],
+        optionsEn: [
+            "Theme",
+            "Formula",
+            "Filter",
+            "Cell"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में Slide के बीच दिखाई देने वाले Visual Effect को क्या कहते हैं?",
+        en: "What is the visual effect between slides called?",
+        optionsHi: [
+            "Transition",
+            "Animation",
+            "Formula",
+            "Filter"
+        ],
+        optionsEn: [
+            "Transition",
+            "Animation",
+            "Formula",
+            "Filter"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में किसी Text या Object पर लगाया गया Movement Effect क्या कहलाता है?",
+        en: "What is a movement effect applied to text or an object called?",
+        optionsHi: [
+            "Animation",
+            "Transition",
+            "Theme",
+            "Layout"
+        ],
+        optionsEn: [
+            "Animation",
+            "Transition",
+            "Theme",
+            "Layout"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Transition और Animation में मुख्य अंतर क्या है?",
+        en: "What is the main difference between a Transition and an Animation?",
+        optionsHi: [
+            "Transition Slides के बीच होता है, Animation Objects पर",
+            "दोनों केवल Text पर होते हैं",
+            "Transition केवल Audio के लिए होता है",
+            "Animation केवल Background के लिए होता है"
+        ],
+        optionsEn: [
+            "Transition occurs between slides, Animation applies to objects",
+            "Both are only for text",
+            "Transition is only for audio",
+            "Animation is only for backgrounds"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में SmartArt का उपयोग किसलिए किया जाता है?",
+        en: "What is SmartArt used for in PowerPoint?",
+        optionsHi: [
+            "Information को Visual Diagram के रूप में दिखाने के लिए",
+            "File Delete करने के लिए",
+            "Audio Record करने के लिए",
+            "Computer बंद करने के लिए"
+        ],
+        optionsEn: [
+            "To display information as visual diagrams",
+            "To delete files",
+            "To record audio",
+            "To shut down the computer"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में Chart का उपयोग किसलिए किया जाता है?",
+        en: "What is a Chart used for in PowerPoint?",
+        optionsHi: [
+            "Data को Graphical रूप में दिखाने के लिए",
+            "Slide Delete करने के लिए",
+            "Text Translate करने के लिए",
+            "Computer Restart करने के लिए"
+        ],
+        optionsEn: [
+            "To display data graphically",
+            "To delete slides",
+            "To translate text",
+            "To restart the computer"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में Speaker Notes का उपयोग किसलिए किया जाता है?",
+        en: "What are Speaker Notes used for in PowerPoint?",
+        optionsHi: [
+            "Presenter के लिए अतिरिक्त Notes रखने के लिए",
+            "Audience की Screen बदलने के लिए",
+            "Slide Delete करने के लिए",
+            "Computer बंद करने के लिए"
+        ],
+        optionsEn: [
+            "To keep additional notes for the presenter",
+            "To change the audience's screen",
+            "To delete slides",
+            "To shut down the computer"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Presenter View का मुख्य लाभ क्या है?",
+        en: "What is the main benefit of Presenter View?",
+        optionsHi: [
+            "Presenter को Notes और Presentation Controls देखने में मदद करता है",
+            "Computer की RAM बढ़ाता है",
+            "File को Automatically Delete करता है",
+            "Internet Speed बढ़ाता है"
+        ],
+        optionsEn: [
+            "It helps the presenter see notes and presentation controls",
+            "It increases computer RAM",
+            "It automatically deletes files",
+            "It increases Internet speed"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में Slide Layout क्या निर्धारित करता है?",
+        en: "What does a Slide Layout determine in PowerPoint?",
+        optionsHi: [
+            "Slide पर Content की Position और Structure",
+            "Computer की Speed",
+            "File का Password",
+            "Internet Connection"
+        ],
+        optionsEn: [
+            "The position and structure of content on a slide",
+            "Computer speed",
+            "File password",
+            "Internet connection"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में Slide Master का उपयोग किसलिए किया जाता है?",
+        en: "What is Slide Master used for in PowerPoint?",
+        optionsHi: [
+            "पूरी Presentation में Consistent Design और Formatting रखने के लिए",
+            "केवल एक शब्द Delete करने के लिए",
+            "Video बनाने के लिए",
+            "Excel Formula लगाने के लिए"
+        ],
+        optionsEn: [
+            "To maintain consistent design and formatting across a presentation",
+            "To delete one word",
+            "To create videos",
+            "To apply Excel formulas"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में Hyperlink का उपयोग किसलिए किया जा सकता है?",
+        en: "What can a Hyperlink be used for in PowerPoint?",
+        optionsHi: [
+            "Webpage, File या दूसरी Slide पर जाने के लिए",
+            "RAM बढ़ाने के लिए",
+            "Font को Automatically Delete करने के लिए",
+            "Computer बंद करने के लिए"
+        ],
+        optionsEn: [
+            "To open a webpage, file, or another slide",
+            "To increase RAM",
+            "To automatically delete fonts",
+            "To shut down the computer"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में Pictures और Videos जोड़ने का उद्देश्य क्या हो सकता है?",
+        en: "What can be the purpose of adding pictures and videos in PowerPoint?",
+        optionsHi: [
+            "Presentation को अधिक Visual और Engaging बनाना",
+            "File Size हमेशा कम करना",
+            "Computer Speed बढ़ाना",
+            "Internet बंद करना"
+        ],
+        optionsEn: [
+            "To make the presentation more visual and engaging",
+            "To always reduce file size",
+            "To increase computer speed",
+            "To turn off the Internet"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में Morph Transition का उपयोग किसलिए किया जाता है?",
+        en: "What is the Morph transition used for in PowerPoint?",
+        optionsHi: [
+            "Slides के बीच Smooth Visual Transformation बनाने के लिए",
+            "File को Delete करने के लिए",
+            "Text को Translate करने के लिए",
+            "Printer सेट करने के लिए"
+        ],
+        optionsEn: [
+            "To create a smooth visual transformation between slides",
+            "To delete a file",
+            "To translate text",
+            "To configure a printer"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में Rehearse Timings का उपयोग किसलिए किया जाता है?",
+        en: "What is Rehearse Timings used for in PowerPoint?",
+        optionsHi: [
+            "Presentation की Timing की Practice और Record करने के लिए",
+            "Slide का Color बदलने के लिए",
+            "File Compress करने के लिए",
+            "Text Delete करने के लिए"
+        ],
+        optionsEn: [
+            "To practice and record presentation timings",
+            "To change slide colors",
+            "To compress files",
+            "To delete text"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में एक ही Presentation को अलग-अलग लोगों के सामने दिखाने के लिए क्या महत्वपूर्ण है?",
+        en: "What is important when presenting the same PowerPoint presentation to different audiences?",
+        optionsHi: [
+            "Clear Design, Readable Text और उचित Timing",
+            "हर Slide में बहुत ज्यादा Text",
+            "हर जगह अलग-अलग Fonts",
+            "बहुत सारे Unnecessary Animations"
+        ],
+        optionsEn: [
+            "Clear design, readable text, and proper timing",
+            "Too much text on every slide",
+            "Different fonts everywhere",
+            "Many unnecessary animations"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में बहुत अधिक Animations का उपयोग करने से क्या समस्या हो सकती है?",
+        en: "What can happen if too many animations are used in a PowerPoint presentation?",
+        optionsHi: [
+            "Presentation Distracting और Unprofessional लग सकती है",
+            "Computer हमेशा तेज हो जाता है",
+            "File Automatically Delete हो जाती है",
+            "Internet Speed बढ़ जाती है"
+        ],
+        optionsEn: [
+            "The presentation may look distracting and unprofessional",
+            "The computer always becomes faster",
+            "The file is automatically deleted",
+            "Internet speed increases"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint Presentation को PDF में बदलने का एक प्रमुख लाभ क्या है?",
+        en: "What is a major benefit of converting a PowerPoint presentation to PDF?",
+        optionsHi: [
+            "Sharing और Viewing को आसान बनाना",
+            "Presentation में Automatically Animation जोड़ना",
+            "RAM बढ़ाना",
+            "Internet Speed बढ़ाना"
+        ],
+        optionsEn: [
+            "Making sharing and viewing easier",
+            "Automatically adding animations",
+            "Increasing RAM",
+            "Increasing Internet speed"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "एक Professional Presentation में Slide पर Text कैसा होना चाहिए?",
+        en: "What should text on a professional presentation slide be like?",
+        optionsHi: [
+            "संक्षिप्त, स्पष्ट और आसानी से पढ़ने योग्य",
+            "बहुत लंबा और भरा हुआ",
+            "बहुत छोटा",
+            "बिना किसी Structure के"
+        ],
+        optionsEn: [
+            "Concise, clear, and easy to read",
+            "Very long and crowded",
+            "Very small",
+            "Without any structure"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "PowerPoint में Duplicate Slide बनाने का फायदा क्या है?",
+        en: "What is the advantage of duplicating a slide in PowerPoint?",
+        optionsHi: [
+            "Existing Slide का Layout और Content जल्दी Reuse किया जा सकता है",
+            "Computer बंद हो जाता है",
+            "File Automatically PDF बन जाती है",
+            "Internet Connection तेज हो जाता है"
+        ],
+        optionsEn: [
+            "The existing slide layout and content can be reused quickly",
+            "The computer shuts down",
+            "The file automatically becomes a PDF",
+            "The Internet connection becomes faster"
+        ],
+        answer: 0
+    }
+],
+
+
+    "Tally": [
+    {
+        hi: "Tally का मुख्य उपयोग किस कार्य के लिए किया जाता है?",
+        en: "What is Tally mainly used for?",
+        optionsHi: [
+            "Accounting और Business Management",
+            "Photo Editing",
+            "Video Editing",
+            "Web Browsing"
+        ],
+        optionsEn: [
+            "Accounting and Business Management",
+            "Photo Editing",
+            "Video Editing",
+            "Web Browsing"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Tally में Business के Accounts और Records रखने के लिए सबसे पहले क्या बनाया जाता है?",
+        en: "What is created first in Tally to maintain a business's accounts and records?",
+        optionsHi: [
+            "Company",
+            "Chart",
+            "Slide",
+            "Document"
+        ],
+        optionsEn: [
+            "Company",
+            "Chart",
+            "Slide",
+            "Document"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Tally में Ledger का उपयोग किसलिए किया जाता है?",
+        en: "What is a Ledger used for in Tally?",
+        optionsHi: [
+            "किसी Account का लेन-देन Record करने के लिए",
+            "Photo बनाने के लिए",
+            "Video चलाने के लिए",
+            "Presentation बनाने के लिए"
+        ],
+        optionsEn: [
+            "To record transactions of an account",
+            "To create photos",
+            "To play videos",
+            "To create presentations"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Tally में Cash Account सामान्यतः किस Group के अंतर्गत आता है?",
+        en: "Under which group does the Cash Account generally fall in Tally?",
+        optionsHi: [
+            "Cash-in-Hand",
+            "Sundry Debtors",
+            "Capital Account",
+            "Sales Account"
+        ],
+        optionsEn: [
+            "Cash-in-Hand",
+            "Sundry Debtors",
+            "Capital Account",
+            "Sales Account"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Tally में Bank Account सामान्यतः किस प्रकार का Ledger होता है?",
+        en: "What type of Ledger is a Bank Account generally in Tally?",
+        optionsHi: [
+            "Bank Account",
+            "Sales Account",
+            "Purchase Account",
+            "Expense Account"
+        ],
+        optionsEn: [
+            "Bank Account",
+            "Sales Account",
+            "Purchase Account",
+            "Expense Account"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Tally में Voucher का उपयोग किसलिए किया जाता है?",
+        en: "What is a Voucher used for in Tally?",
+        optionsHi: [
+            "Business Transactions Record करने के लिए",
+            "Computer बंद करने के लिए",
+            "Photo Edit करने के लिए",
+            "Internet चलाने के लिए"
+        ],
+        optionsEn: [
+            "To record business transactions",
+            "To shut down the computer",
+            "To edit photos",
+            "To use the Internet"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Cash में प्राप्त हुई रकम को Record करने के लिए कौन-सा Voucher उपयोग किया जाता है?",
+        en: "Which voucher is used to record money received in cash?",
+        optionsHi: [
+            "Receipt Voucher",
+            "Payment Voucher",
+            "Purchase Voucher",
+            "Sales Voucher"
+        ],
+        optionsEn: [
+            "Receipt Voucher",
+            "Payment Voucher",
+            "Purchase Voucher",
+            "Sales Voucher"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Cash से किसी Expense का भुगतान करने के लिए कौन-सा Voucher उपयोग होता है?",
+        en: "Which voucher is used to record payment of an expense in cash?",
+        optionsHi: [
+            "Payment Voucher",
+            "Receipt Voucher",
+            "Sales Voucher",
+            "Purchase Voucher"
+        ],
+        optionsEn: [
+            "Payment Voucher",
+            "Receipt Voucher",
+            "Sales Voucher",
+            "Purchase Voucher"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "उधार पर सामान खरीदने की Entry के लिए कौन-सा Voucher उपयोग होता है?",
+        en: "Which voucher is used to record a credit purchase?",
+        optionsHi: [
+            "Purchase Voucher",
+            "Sales Voucher",
+            "Receipt Voucher",
+            "Contra Voucher"
+        ],
+        optionsEn: [
+            "Purchase Voucher",
+            "Sales Voucher",
+            "Receipt Voucher",
+            "Contra Voucher"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "उधार पर सामान बेचने की Entry के लिए कौन-सा Voucher उपयोग होता है?",
+        en: "Which voucher is used to record a credit sale?",
+        optionsHi: [
+            "Sales Voucher",
+            "Purchase Voucher",
+            "Payment Voucher",
+            "Contra Voucher"
+        ],
+        optionsEn: [
+            "Sales Voucher",
+            "Purchase Voucher",
+            "Payment Voucher",
+            "Contra Voucher"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Cash को Bank में जमा करने की Entry के लिए कौन-सा Voucher उपयोग किया जाता है?",
+        en: "Which voucher is used to record cash deposited into the bank?",
+        optionsHi: [
+            "Contra Voucher",
+            "Sales Voucher",
+            "Purchase Voucher",
+            "Journal Voucher"
+        ],
+        optionsEn: [
+            "Contra Voucher",
+            "Sales Voucher",
+            "Purchase Voucher",
+            "Journal Voucher"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Tally में Journal Voucher का उपयोग सामान्यतः किसलिए किया जाता है?",
+        en: "What is a Journal Voucher generally used for in Tally?",
+        optionsHi: [
+            "Adjustment और अन्य Journal Entries के लिए",
+            "केवल Cash Sales के लिए",
+            "केवल Cash Purchase के लिए",
+            "Photo Editing के लिए"
+        ],
+        optionsEn: [
+            "For adjustment and other journal entries",
+            "Only for cash sales",
+            "Only for cash purchases",
+            "For photo editing"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Tally में Debit और Credit का उपयोग किसमें किया जाता है?",
+        en: "Where are Debit and Credit used in Tally?",
+        optionsHi: [
+            "Accounting Entries में",
+            "Photo Editing में",
+            "Video Editing में",
+            "Presentation Design में"
+        ],
+        optionsEn: [
+            "In accounting entries",
+            "In photo editing",
+            "In video editing",
+            "In presentation design"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Tally में Trial Balance का मुख्य उद्देश्य क्या है?",
+        en: "What is the main purpose of a Trial Balance in Tally?",
+        optionsHi: [
+            "Debit और Credit Balances की जाँच करना",
+            "Photo Print करना",
+            "Video बनाना",
+            "Stock Delete करना"
+        ],
+        optionsEn: [
+            "To check debit and credit balances",
+            "To print photos",
+            "To create videos",
+            "To delete stock"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Profit & Loss Account क्या दिखाता है?",
+        en: "What does the Profit & Loss Account show?",
+        optionsHi: [
+            "Business का Profit या Loss",
+            "केवल Bank Balance",
+            "केवल Stock Quantity",
+            "केवल Customer List"
+        ],
+        optionsEn: [
+            "Business profit or loss",
+            "Only bank balance",
+            "Only stock quantity",
+            "Only customer list"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Balance Sheet मुख्य रूप से क्या दिखाती है?",
+        en: "What does the Balance Sheet mainly show?",
+        optionsHi: [
+            "Assets और Liabilities",
+            "केवल Sales",
+            "केवल Purchases",
+            "केवल Expenses"
+        ],
+        optionsEn: [
+            "Assets and Liabilities",
+            "Only Sales",
+            "Only Purchases",
+            "Only Expenses"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Tally में Inventory का संबंध मुख्य रूप से किससे है?",
+        en: "What is Inventory mainly related to in Tally?",
+        optionsHi: [
+            "Stock और Items Management",
+            "Employee Attendance",
+            "Email Management",
+            "Photo Management"
+        ],
+        optionsEn: [
+            "Stock and item management",
+            "Employee attendance",
+            "Email management",
+            "Photo management"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Stock Item का उपयोग किसलिए किया जाता है?",
+        en: "What is a Stock Item used for?",
+        optionsHi: [
+            "सामान/Inventory को Track करने के लिए",
+            "Bank Password रखने के लिए",
+            "Employee Photo रखने के लिए",
+            "Presentation बनाने के लिए"
+        ],
+        optionsEn: [
+            "To track goods/inventory",
+            "To store bank passwords",
+            "To store employee photos",
+            "To create presentations"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Tally में GST का पूरा नाम क्या है?",
+        en: "What is the full form of GST?",
+        optionsHi: [
+            "Goods and Services Tax",
+            "General Sales Transaction",
+            "Government Service Transfer",
+            "Goods Stock Tracking"
+        ],
+        optionsEn: [
+            "Goods and Services Tax",
+            "General Sales Transaction",
+            "Government Service Transfer",
+            "Goods Stock Tracking"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "भारत में GST मुख्य रूप से किस प्रकार का Tax है?",
+        en: "What type of tax is GST in India?",
+        optionsHi: [
+            "Indirect Tax",
+            "Direct Tax",
+            "Income Tax only",
+            "Property Tax only"
+        ],
+        optionsEn: [
+            "Indirect Tax",
+            "Direct Tax",
+            "Income Tax only",
+            "Property Tax only"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "CGST और SGST सामान्यतः कब लागू होते हैं?",
+        en: "When are CGST and SGST generally applicable?",
+        optionsHi: [
+            "राज्य के अंदर होने वाले Supply पर",
+            "केवल विदेशों में Supply पर",
+            "केवल Salary पर",
+            "केवल Bank Interest पर"
+        ],
+        optionsEn: [
+            "On intra-state supply",
+            "Only on foreign supply",
+            "Only on salary",
+            "Only on bank interest"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "IGST सामान्यतः कब लागू होता है?",
+        en: "When is IGST generally applicable?",
+        optionsHi: [
+            "Inter-State Supply पर",
+            "केवल उसी शहर में Sale पर",
+            "केवल Salary पर",
+            "केवल Cash Withdrawal पर"
+        ],
+        optionsEn: [
+            "On inter-state supply",
+            "Only on sales within the same city",
+            "Only on salary",
+            "Only on cash withdrawal"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Tally में Bank Reconciliation का उद्देश्य क्या है?",
+        en: "What is the purpose of Bank Reconciliation in Tally?",
+        optionsHi: [
+            "Books के Bank Balance और Bank Statement का मिलान करना",
+            "Stock Count करना",
+            "Sales Invoice Print करना",
+            "Company Delete करना"
+        ],
+        optionsEn: [
+            "To reconcile the book balance with the bank statement",
+            "To count stock",
+            "To print sales invoices",
+            "To delete a company"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Tally में Outstanding Receivables Report से क्या पता चलता है?",
+        en: "What does the Outstanding Receivables Report show in Tally?",
+        optionsHi: [
+            "Customers से कितनी रकम प्राप्त करनी बाकी है",
+            "Suppliers को कितनी रकम देनी है",
+            "कितना Stock खराब है",
+            "कितना Cash Bank में है"
+        ],
+        optionsEn: [
+            "How much money is receivable from customers",
+            "How much is payable to suppliers",
+            "How much stock is damaged",
+            "How much cash is in the bank"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "Tally में Outstanding Payables Report से क्या पता चलता है?",
+        en: "What does the Outstanding Payables Report show in Tally?",
+        optionsHi: [
+            "Suppliers को कितनी रकम देनी बाकी है",
+            "Customers से कितनी रकम लेनी है",
+            "कितना Profit हुआ",
+            "कितना Stock बिक चुका है"
+        ],
+        optionsEn: [
+            "How much money is payable to suppliers",
+            "How much money is receivable from customers",
+            "How much profit was earned",
+            "How much stock has been sold"
+        ],
+        answer: 0
+    },
+
+    {
+        hi: "एक अच्छे Accounting System में Tally Reports का महत्व क्या है?",
+        en: "What is the importance of Tally reports in a good accounting system?",
+        optionsHi: [
+            "Business की Financial स्थिति और Transactions को समझने में मदद करना",
+            "केवल Computer की Speed बढ़ाना",
+            "केवल Photos Store करना",
+            "केवल Internet चलाना"
+        ],
+        optionsEn: [
+            "They help understand the financial position and transactions of a business",
+            "They only increase computer speed",
+            "They only store photos",
+            "They only provide Internet access"
+        ],
+        answer: 0
+    }
+],
+
+};
+
+
+/* ============================
+   TEST VARIABLES
+============================ */
+
+let currentCategory = "";
+
+let currentQuestion = 0;
+
+let userAnswers = [];
+
+
+/* ============================
+   START TEST
+============================ */
+
+function startTest(category) {
+
+    currentCategory = category;
+
+    currentQuestion = 0;
+
+    userAnswers =
+        new Array(questionBank[category].length)
+        .fill(null);
+
+
+    document
+        .getElementById("categoryScreen")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("testScreen")
+        .classList.remove("hidden");
+
+
+    showQuestion();
+
+}
+
+
+/* ============================
+   SHOW QUESTION
+============================ */
+
+function showQuestion() {
+
+    const questions =
+        questionBank[currentCategory];
+
+    const question =
+        questions[currentQuestion];
+
+
+    document.getElementById("categoryName")
+        .innerText = currentCategory;
+
+
+    document.getElementById("questionNumber")
+        .innerText =
+        "Question " +
+        (currentQuestion + 1) +
+        " / " +
+        questions.length;
+
+
+    if (selectedLanguage === "hi") {
+
+        document.getElementById("questionText")
+            .innerText = question.hi;
+
+    } else {
+
+        document.getElementById("questionText")
+            .innerText = question.en;
+
+    }
+
+
+    const optionsContainer =
+        document.getElementById("optionsContainer");
+
+
+    optionsContainer.innerHTML = "";
+
+
+    const options =
+        selectedLanguage === "hi"
+        ? question.optionsHi
+        : question.optionsEn;
+
+
+    options.forEach((option, index) => {
+
+        const label =
+            document.createElement("label");
+
+
+        label.className = "option";
+
+
+        label.innerHTML = `
+
+            <input
+                type="radio"
+                name="answer"
+                value="${index}"
+                ${userAnswers[currentQuestion] === index
+                    ? "checked"
+                    : ""}
+            >
+
+            ${option}
+
+        `;
+
+
+        optionsContainer.appendChild(label);
+
+    });
+
+
+    document.getElementById("nextButton")
+        .classList.toggle(
+            "hidden",
+            currentQuestion === questions.length - 1
+        );
+
+
+    document.getElementById("submitButton")
+        .classList.toggle(
+            "hidden",
+            currentQuestion !== questions.length - 1
+        );
+
+}
+
+
+/* ============================
+   SAVE ANSWER
+============================ */
+
+function saveAnswer() {
+
+    const selected =
+        document.querySelector(
+            'input[name="answer"]:checked'
+        );
+
+
+    if (selected) {
+
+        userAnswers[currentQuestion] =
+            Number(selected.value);
+
+    }
+
+}
+
+
+/* ============================
+   NEXT
+============================ */
+
+function nextQuestion() {
+
+    saveAnswer();
+
+
+    const questions =
+        questionBank[currentCategory];
+
+
+    if (
+        currentQuestion <
+        questions.length - 1
+    ) {
+
+        currentQuestion++;
+
+        showQuestion();
+
+    }
+
+}
+
+
+/* ============================
+   SUBMIT
+============================ */
+
+function submitTest() {
+
+    saveAnswer();
+
+    const questions =
+        questionBank[currentCategory];
+
+    let score = 0;
+
+    questions.forEach((question, index) => {
+        if (userAnswers[index] === question.answer) {
+            score++;
+        }
+    });
+
+    const total = questions.length;
+    const wrong = total - score;
+    const percentage = ((score / total) * 100).toFixed(2);
+
+    document.getElementById("testScreen")
+        .classList.add("hidden");
+
+    document.getElementById("resultScreen")
+        .classList.remove("hidden");
+
+    document.getElementById("scoreText")
+        .innerText = score + " / " + total;
+
+    let message;
+
+    if (selectedLanguage === "hi") {
+        if (percentage >= 80) {
+            message = "बहुत बढ़िया! आपकी Computer knowledge अच्छी है।";
+        } else if (percentage >= 50) {
+            message = "अच्छा प्रयास! थोड़ी और practice करें।";
+        } else {
+            message = "अच्छा प्रयास। सीखते रहें और फिर से test दें।";
+        }
+    } else {
+        if (percentage >= 80) {
+            message = "Excellent! You have very good computer knowledge.";
+        } else if (percentage >= 50) {
+            message = "Good attempt! Keep practicing.";
+        } else {
+            message = "Keep learning and try the test again.";
+        }
+    }
+
+    document.getElementById("resultMessage")
+        .innerText = message;
+
+    document.getElementById("resultTestName")
+        .innerText = currentCategory + " Test";
+
+    document.getElementById("resultDetails")
+        .innerHTML = `
+            <div class="result-grid">
+                <div class="result-card">
+                    <span class="result-card-label">Total Questions</span>
+                    <span class="result-card-value">${total}</span>
+                </div>
+                <div class="result-card">
+                    <span class="result-card-label">Correct</span>
+                    <span class="result-card-value">${score}</span>
+                </div>
+                <div class="result-card">
+                    <span class="result-card-label">Wrong</span>
+                    <span class="result-card-value">${wrong}</span>
+                </div>
+                <div class="result-card">
+                    <span class="result-card-label">Percentage</span>
+                    <span class="result-card-value">${percentage}%</span>
+                </div>
+            </div>
+
+            <div class="result-info">
+                <strong>Candidate:</strong> ${escapeHtml(candidateName)}<br>
+                <strong>Mobile:</strong> ${escapeHtml(candidateMobile)}
+            </div>
+        `;
+
+    const statusElement = document.getElementById("resultStatus");
+
+    if (percentage >= 50) {
+        statusElement.innerText = selectedLanguage === "hi"
+            ? "✓ पास — अच्छा प्रदर्शन"
+            : "✓ PASS — Good Performance";
+        statusElement.style.background = "#e8f5e9";
+        statusElement.style.color = "#2e7d32";
+    } else {
+        statusElement.innerText = selectedLanguage === "hi"
+            ? "↻ Practice Required — फिर से प्रयास करें"
+            : "↻ NEEDS PRACTICE — Try Again";
+        statusElement.style.background = "#fff3e0";
+        statusElement.style.color = "#e65100";
+    }
+
+    sendResultToGoogleSheet({
+        name: candidateName,
+        mobile: candidateMobile,
+        test: currentCategory,
+        total: total,
+        correct: score,
+        wrong: wrong,
+        percentage: Number(percentage)
+    });
+}
+
+
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function sendResultToGoogleSheet(data) {
+
+    fetch(GOOGLE_SHEET_API_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(data)
+    }).catch(error => {
+        console.error("Result send failed:", error);
+    });
+}
+
+
+/* ============================
+   BACK
+============================ */
+
+function backToCategories() {
+
+    document.getElementById("testScreen")
+        .classList.add("hidden");
+
+
+    document.getElementById("resultScreen")
+        .classList.add("hidden");
+
+
+    document.getElementById("categoryScreen")
+        .classList.remove("hidden");
+
+}
+
+
+/* ============================
+   HOME
+============================ */
+
+function goHome() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+</script>
+
+</body>
+</html>
